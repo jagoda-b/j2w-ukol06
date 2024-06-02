@@ -1,36 +1,37 @@
 package cz.czechitas.java2webapps.ukol6.controller;
 
 import cz.czechitas.java2webapps.ukol6.entity.Vizitka;
-import cz.czechitas.java2webapps.ukol6.service.VizitkaService;
+import cz.czechitas.java2webapps.ukol6.repository.VizitkaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
+
 /**
  * Kontroler obsluhující zobrazování vizitek.
  */
 @Controller
 public class VizitkaController {
-    private final VizitkaService service;
+    private final VizitkaRepository repository;
 
-    public VizitkaController(VizitkaService service) {
-        this.service = service;
+    public VizitkaController(VizitkaRepository repository) {
+        this.repository = repository;
     }
 
     @GetMapping("/")
     public ModelAndView seznam() {
         ModelAndView result = new ModelAndView("seznam");
-        result.addObject("vizitky", service.getAll());
+        result.addObject("vizitky", repository.findAll());
         return result;
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public ModelAndView detail(@PathVariable int id) {
         ModelAndView result = new ModelAndView("vizitka");
-        result.addObject("vizitka", service.getById(id));
-        result.addObject("id", id);
+        result.addObject("vizitka", repository.findById(id).orElse(null));
         return result;
     }
 
@@ -43,17 +44,16 @@ public class VizitkaController {
 
     @PostMapping("/nova")
     public String nova(Vizitka form) {
-        service.add(form);
+        repository.save(form);
         if (form.getJmeno() == null || form.getFirma() == null || form.getUlice() == null || form.getPsc() == null) {
-
             throw new IllegalArgumentException("All fields must be filled");
         }
         return "redirect:/";
     }
 
-    @PostMapping("/detail/{id}")
+    @PostMapping("/{id}")
     public String delete(@PathVariable int id) {
-        service.delete(id);
+        repository.delete(Objects.requireNonNull(repository.findById(id).orElse(null)));
         return "redirect:/";
     }
 

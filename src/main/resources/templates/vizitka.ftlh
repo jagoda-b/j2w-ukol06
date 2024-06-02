@@ -2,7 +2,7 @@
 [@c.page]
     <div class="detail">
 
-        <form class="delete" method="post" action="/detail/${id}" >
+        <form class="delete" method="post" action="/${id}" >
             <input type="hidden" name="id" value="${id}">
             <input type="submit" value="Smazat">
         </form>

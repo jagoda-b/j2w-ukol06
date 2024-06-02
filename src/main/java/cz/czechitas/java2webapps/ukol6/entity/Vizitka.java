@@ -1,11 +1,18 @@
 package cz.czechitas.java2webapps.ukol6.entity;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 /**
  * Entita obsahující údaje zobrazené na vizitce.
  */
+@Entity
 public class Vizitka {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "cele_jmeno")
     private String jmeno;
     private String firma;
     private String ulice;
@@ -27,6 +34,10 @@ public class Vizitka {
         this.email = email;
         this.telefon = telefon;
         this.web = web;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getJmeno() {
