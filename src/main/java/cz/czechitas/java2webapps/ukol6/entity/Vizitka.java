@@ -12,14 +12,21 @@ public class Vizitka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "cele_jmeno")
+    @Column(name = "cele_jmeno", length = 100)
     private String jmeno;
+    @Column(length = 100)
     private String firma;
+    @Column(length = 100)
     private String ulice;
+    @Column(length = 100)
     private String obec;
+    @Column(length = 5)
     private String psc;
+    @Column(length = 100)
     private String email;
+    @Column(length = 100)
     private String telefon;
+    @Column(length = 100)
     private String web;
 
     public Vizitka() {
